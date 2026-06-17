@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ClipVault</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 11l2 2 4-4"/>
+        </svg>
+        <h1>ClipVault</h1>
+      </div>
+      <div class="header-actions">
+        <button id="settings-btn" class="header-btn" title="Settings">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+        <button id="clear-all-btn" class="header-btn" title="Clear all unpinned items in this tab">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span>Clear All</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Settings Panel (Overlay) -->
+    <div id="settings-panel" class="settings-panel hidden">
+      <div class="settings-header">
+        <h2>Settings</h2>
+        <button id="close-settings-btn" class="action-btn" title="Close Settings">
+          <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="settings-content">
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-title">Auto-clear history on browser close</span>
+            <span class="setting-desc">Clears clipboard and vault history when browser is closed.</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="auto-clear-toggle">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <nav class="tabs-nav">
+      <button id="tab-clipboard" class="tab-btn active">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+        </svg>
+        <span>Clipboard</span>
+      </button>
+      <button id="tab-vault" class="tab-btn">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span>Password Vault</span>
+      </button>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="search-input" placeholder="Search history..." autocomplete="off">
+    </div>
+
+    <!-- Items List -->
+    <main class="list-container">
+      <div id="clipboard-list" class="items-list active">
+        <!-- Rendered dynamically -->
+      </div>
+      <div id="vault-list" class="items-list">
+        <!-- Rendered dynamically -->
+      </div>
+      <div id="empty-state" class="empty-state hidden">
+        <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <p>No items found</p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="disclaimer hidden" id="vault-disclaimer">
+        <span>Passwords are saved locally in sandboxed storage.</span>
+      </div>
+      <div class="privacy-statement" id="privacy-statement">
+        <button id="toggle-privacy-btn" class="privacy-toggle" title="View Privacy Statement">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span>Privacy Statement</span>
+          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="privacy-content hidden" id="privacy-content">
+          <p>
+            <strong>ClipVault</strong> stores all clipboard items, vault passwords, and settings <strong>100% locally</strong> in your browser's sandboxed storage (<code>chrome.storage.local</code>). Zero network requests are made, and no data is ever sent to any remote server or shared with third parties.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span>Copied to clipboard!</span>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
