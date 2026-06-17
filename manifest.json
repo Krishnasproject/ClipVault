@@ -8,7 +8,14 @@
     "clipboardRead"
   ],
   "background": {
+    "scripts": ["background.js"],
     "service_worker": "background.js"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "clipvault@krishnasproject.org",
+      "strict_min_version": "109.0"
+    }
   },
   "content_scripts": [
     {

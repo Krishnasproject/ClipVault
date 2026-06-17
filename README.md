@@ -1,6 +1,6 @@
 # ClipVault 🛡️
 
-ClipVault is a secure, **100% local** clipboard history manager and password vault built as a lightweight Chrome extension. Designed with a privacy-first mindset, it ensures that your copied text and sensitive passwords never leave your device.
+ClipVault is a secure, **100% local** clipboard history manager and password vault built as a lightweight Chrome and Firefox extension. Designed with a privacy-first mindset, it ensures that your copied text and sensitive passwords never leave your device.
 
 ---
 
@@ -16,8 +16,9 @@ ClipVault is a secure, **100% local** clipboard history manager and password vau
 
 ## 🛠️ Installation
 
-Since ClipVault is local-first, you can load it directly into Google Chrome as a developer extension:
+Since ClipVault is local-first, you can load it directly into Google Chrome or Mozilla Firefox as a developer extension:
 
+### Google Chrome
 1. **Download/Clone this repository**:
    ```bash
    git clone https://github.com/Krishnasproject/ClipVault.git
@@ -30,6 +31,20 @@ Since ClipVault is local-first, you can load it directly into Google Chrome as a
    Click **Load unpacked** in the top-left corner and select the `ClipVault` directory containing `manifest.json`.
 5. **Pin ClipVault**:
    Click the puzzle piece icon in your Chrome toolbar and pin **ClipVault** for easy access!
+
+### Mozilla Firefox
+1. **Download/Clone this repository**:
+   ```bash
+   git clone https://github.com/Krishnasproject/ClipVault.git
+   ```
+2. **Open Firefox Debugging**:
+   Navigate to `about:debugging` in your Firefox browser.
+3. **Select This Firefox**:
+   Click **This Firefox** in the left sidebar menu.
+4. **Load Temporary Add-on**:
+   Click **Load Temporary Add-on...** and select the `manifest.json` file inside the `ClipVault` folder.
+5. **Pin ClipVault**:
+   Click the Extensions (jigsaw piece) icon in the Firefox toolbar and pin **ClipVault** for quick access!
 
 ---
 
