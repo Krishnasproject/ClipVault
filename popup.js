@@ -6,6 +6,15 @@ const STAR_FILLED_ICON = `<svg class="action-icon" viewBox="0 0 24 24" fill="cur
 const EYE_ICON = `<svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
 const EYE_OFF_ICON = `<svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
 
+// Helper to safely parse and create an SVG element from static icon strings, avoiding innerHTML linter warnings
+function setButtonIcon(button, svgString) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(svgString, 'image/svg+xml');
+  const svgElement = doc.documentElement;
+  // Clear any existing children (e.g. previous icons) and append the new one safely
+  button.replaceChildren(svgElement);
+}
+
 // State Variables
 let activeTab = 'clipboard'; // 'clipboard' or 'vault'
 let clipboardHistory = [];
@@ -231,7 +240,7 @@ function render() {
 
 // Render Clipboard List
 function renderClipboard(query) {
-  clipboardList.innerHTML = '';
+  clipboardList.replaceChildren();
   
   const filtered = clipboardHistory.filter(item => 
     item.text.toLowerCase().includes(query)
@@ -279,7 +288,7 @@ function renderClipboard(query) {
     const copyBtn = document.createElement('button');
     copyBtn.className = 'action-btn';
     copyBtn.title = 'Copy full text';
-    copyBtn.innerHTML = COPY_ICON;
+    setButtonIcon(copyBtn, COPY_ICON);
     copyBtn.addEventListener('click', () => {
       copyToClipboard(item.text, 'Copied item to clipboard', false);
     });
@@ -289,7 +298,7 @@ function renderClipboard(query) {
     const pinBtn = document.createElement('button');
     pinBtn.className = `action-btn pin-btn ${item.pinned ? 'pinned' : ''}`;
     pinBtn.title = item.pinned ? 'Unpin item' : 'Pin item';
-    pinBtn.innerHTML = item.pinned ? STAR_FILLED_ICON : STAR_OUTLINE_ICON;
+    setButtonIcon(pinBtn, item.pinned ? STAR_FILLED_ICON : STAR_OUTLINE_ICON);
     pinBtn.addEventListener('click', async () => {
       item.pinned = !item.pinned;
       // Re-sort history (pinned items remain in order, but background script prunes correctly)
@@ -302,7 +311,7 @@ function renderClipboard(query) {
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'action-btn delete-btn';
     deleteBtn.title = 'Delete item';
-    deleteBtn.innerHTML = TRASH_ICON;
+    setButtonIcon(deleteBtn, TRASH_ICON);
     deleteBtn.addEventListener('click', async () => {
       clipboardHistory = clipboardHistory.filter(i => i.id !== item.id);
       await saveToStorage('clipboardHistory', clipboardHistory);
@@ -324,7 +333,7 @@ function renderClipboard(query) {
 
 // Render Password Vault List
 function renderVault(query) {
-  vaultList.innerHTML = '';
+  vaultList.replaceChildren();
   
   const filtered = vaultHistory.filter(item => 
     item.website.toLowerCase().includes(query)
@@ -367,7 +376,7 @@ function renderVault(query) {
     const eyeBtn = document.createElement('button');
     eyeBtn.className = 'action-btn';
     eyeBtn.title = isVisible ? 'Hide password' : 'Show password';
-    eyeBtn.innerHTML = isVisible ? EYE_OFF_ICON : EYE_ICON;
+    setButtonIcon(eyeBtn, isVisible ? EYE_OFF_ICON : EYE_ICON);
     eyeBtn.addEventListener('click', () => {
       passwordVisibility[item.id] = !isVisible;
       render();
@@ -378,7 +387,7 @@ function renderVault(query) {
     const copyBtn = document.createElement('button');
     copyBtn.className = 'action-btn';
     copyBtn.title = 'Copy password';
-    copyBtn.innerHTML = COPY_ICON;
+    setButtonIcon(copyBtn, COPY_ICON);
     copyBtn.addEventListener('click', () => {
       copyToClipboard(item.password, 'Password copied to clipboard', true);
     });
@@ -388,7 +397,7 @@ function renderVault(query) {
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'action-btn delete-btn';
     deleteBtn.title = 'Delete password';
-    deleteBtn.innerHTML = TRASH_ICON;
+    setButtonIcon(deleteBtn, TRASH_ICON);
     deleteBtn.addEventListener('click', async () => {
       vaultHistory = vaultHistory.filter(i => i.id !== item.id);
       delete passwordVisibility[item.id];
